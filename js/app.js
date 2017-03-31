@@ -207,9 +207,7 @@ if (isPracticeMode)
 $(() => {
     $('#webIdeVersion').text(kaitaiIde.version);
     $('#compilerVersion').text(io.kaitai.struct.MainJs().version + " (" + io.kaitai.struct.MainJs().buildDate + ")");
-    $('#welcomeDoNotShowAgain').click(() => localStorage.setItem('doNotShowWelcome', 'true'));
-    if (localStorage.getItem('doNotShowWelcome') !== 'true')
-        $('#welcomeModal').modal();
+    $('#welcomeModal').modal();
     $('#aboutWebIde').on('click', () => $('#welcomeModal').modal());
     ui.hexViewer.onSelectionChanged = () => {
         //console.log('setSelection', ui.hexViewer.selectionStart, ui.hexViewer.selectionEnd);

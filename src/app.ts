@@ -271,9 +271,7 @@ $(() => {
     $('#webIdeVersion').text(kaitaiIde.version);
     $('#compilerVersion').text(io.kaitai.struct.MainJs().version + " (" + io.kaitai.struct.MainJs().buildDate + ")");
 
-    $('#welcomeDoNotShowAgain').click(() => localStorage.setItem('doNotShowWelcome', 'true'));
-    if (localStorage.getItem('doNotShowWelcome') !== 'true')
-        (<any>$('#welcomeModal')).modal();
+    (<any>$('#welcomeModal')).modal();
     $('#aboutWebIde').on('click', () => (<any>$('#welcomeModal')).modal());
 
     ui.hexViewer.onSelectionChanged = () => {

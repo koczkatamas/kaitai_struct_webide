@@ -14,6 +14,18 @@
     <link rel="stylesheet" type="text/css" href="lib/jstree/themes/default-dark/style.min.css" />
     <link rel="stylesheet" type="text/css" href="lib/font-awesome/font-awesome.min.css" />
     
+    <script src="lib/q.js/q.js"></script>
+    <script src="lib/localForage/localforage.js"></script>
+    <script>
+        if (location.hash !== "#noredir") {
+            localforage.keys().then(keys => {
+                if (!keys.some(key => key.indexOf("fs_file[") === 0))
+                    window.location = "https://ide.kaitai.io";
+            });
+        }
+    </script>
+
+
     <script src="lib/jquery/jquery-3.1.1.min.js"></script>
     <script src="lib/bootstrap/bootstrap.min.js"></script>
     <script src="js/autorefresh.js"></script>
@@ -179,24 +191,23 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-group">
-                    <h4 class="modal-title" id="welcomeModalLabel">Hey there!</h4>
+                    <h4 class="modal-title" id="welcomeModalLabel">We've moved!</h4>
+                </div>
+                <div class="form-group" style="text-align:center">
+                    The Kaitai Struct WebIDE is now available at
+                    <h3>&gt;&gt;&gt; <a href="https://ide.kaitai.io">ide.kaitai.io</a> &lt;&lt;&lt;</h3>
                 </div>
                 <div class="form-group">
-                    If this is the first time you are using Kaitai WebIDE then I recommend scrolling through our 
-                    <a href="https://github.com/koczkatamas/kaitai_struct_webide/wiki/Features" target="_blank">Features page</a>.
+                    Please note that we did not migrate your current files to the new domain, so please save your files from this domain (kt.pe) and 
+                    upload them to <a href="https://ide.kaitai.io">ide.kaitai.io</a>.
                 </div>
                 <div class="form-group">
-                    You can read more about Kaitai Struct on its website (<a href="http://kaitai.io" target="_blank">kaitai.io</a>) and 
-                    learn the basics of .ksy file format at the <a href="https://github.com/kaitai-io/kaitai_struct/wiki/File-description" target="_blank">Kaitai wiki</a> (use the right-hand menu too).
+                    You can use the WebIDE on this domain (kt.pe) until 04/15/2017, although the new features / bugfixes won't be available here (only on <a href="https://ide.kaitai.io">ide.kaitai.io</a>).
+                    After 04/15/2017 every functionality will be removed, except file download.
                 </div>
                 <div class="form-group">
-                    We would be pleased if you could visit us and share your thoughts about Kaitai Struct or WebIDE in our 
-                    <a href="https://gitter.im/kaitai_struct/Lobby" target="_blank">Gitter chatroom</a>.
-                </div>
-                <div class="form-group">
-                    You can view the source code or create issues on Github 
-                    for the <a href="https://github.com/koczkatamas/kaitai_struct_webide" target="_blank">WebIDE</a> or
-                    <a href="https://github.com/kaitai-io/kaitai_struct" target="_blank">Kaitai Struct</a>.
+                    If you have any questions or suggestions you can always visit us at
+                    <a href="https://gitter.im/kaitai_struct/Lobby" target="_blank">our Gitter chatroom</a>.
                 </div>
                 <div class="form-group">
                     Kaitai WebIDE was made possible by using 
@@ -213,9 +224,6 @@
                 <div class="licenses">
                     <div>Kaitai WebIDE version: <span id="webIdeVersion"></span> (<a href="https://raw.githubusercontent.com/koczkatamas/kaitai_struct_webide/master/LICENSE" target="_blank">license</a>)</div>
                     <div>Kaitai compiler version: <span id="compilerVersion"></span></div>
-                </div>
-                <div style="text-align:center; font-size:12px; margin-bottom:10px">
-                    <a id="welcomeDoNotShowAgain" href="#" data-dismiss="modal">close and do not show again</a>
                 </div>
                 <div style="text-align:center">
                     <button type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -244,8 +252,6 @@
 <script src="lib/jailed/jailed.js"></script>
 <script src="lib/interval-tree2/interval-tree.js"></script>
 <script src="js/FileDrop.js"></script>
-<script src="lib/q.js/q.js"></script>
-<script src="lib/localForage/localforage.js"></script>
 <script src="js/parsedToTree.js"></script>
 <script src="lib/BigInteger/BigInteger.js"></script>
 <script src="lib/date.format/date.format.js"></script>
