@@ -1,34 +1,5 @@
 # Kaitai Struct WebIDE
-Online editor / visualizer for Kaitai Struct .ksy files
 
-## features
+Project moved to the [Kaitai Struct's Github account](https://github.com/kaitai-io/kaitai_struct_webide)
 
-[See the Features wiki page](https://github.com/koczkatamas/kaitai_struct_webide/wiki/Features)
-
-## community
-
-[Visit us on Gitter](https://gitter.im/kaitai_struct/Lobby)
-
-## demo
-
-[https://kt.pe/kaitai_struct_webide/](https://kt.pe/kaitai_struct_webide/)
-
-## run locally (without compiling / modifying the source code)
-
-- `git clone --recursive https://github.com/koczkatamas/kaitai_struct_webide`
-- serve on a webserver (ex. `python -mSimpleHTTPServer` or `python serve.py`)
-- Go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
-
-## compile and run locally
-
-- `git clone --recursive https://github.com/koczkatamas/kaitai_struct_webide`
-- `npm install -g typescript@2.0`
-- `python serve.py --compile`
-- Go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
-
-## screenshots
-
-![Example screenshot of a .zip file](docs/zip_example.png)
-![Example screenshot of a .png file](docs/png_example.png)
-
-For more screenshots [visit the Features wiki page](https://github.com/koczkatamas/kaitai_struct_webide/wiki/Features)
+This repo only contains download-only functionality which makes possible saving files created under https://kt.pe/ domain.
