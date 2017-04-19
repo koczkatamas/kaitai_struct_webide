@@ -32,17 +32,10 @@
     <script src="lib/goldenlayout/goldenlayout.js"></script>
     <script src="lib/jstree/jstree.js"></script>
     <script src="js/config.js"></script>
-    <script src="js/practiceMode.js"></script>
     <script src="js/utils.js"></script>
-    <script src="js/parsedToJson.js"></script>
-    <script src="js/entities.js"></script>
     <script src="js/app.layout.js"></script>
-    <script src="js/app.errors.js"></script>
-    <script src="js/app.jail.js"></script>
     <script src="js/kaitaiFsFiles.js"></script>
     <script src="js/app.files.js"></script>
-    <script src="js/app.selectionInput.js"></script>
-    <script src="js/app.converterPanel.js"></script>
     <script src="js/app.js"></script>
 </head>
 <body>
@@ -59,62 +52,10 @@
 <script src="lib/bowser/bowser.js"></script>
 <script src="js/app.unsupportedBrowser.js"></script>
 
-<div id="fileDrop">
-    <div>
-        Drag &amp; drop a file here<br />to upload
-    </div>
-</div>
-
 <div id="infoPanel">
-    <div>
-        <span class="selectionText">selection</span>
-        <span class="selGroup input-group">
-            <input type="text" class="selStart form-control"><span class="input-group-addon">-</span><input type="text" class="selEnd form-control">
-        </span>
-    </div>
-    <div id="disableLazyParsingDiv">
-        <input type="checkbox" id="disableLazyParsing" />
-        <label for="disableLazyParsing">disable lazy parsing</label>
-    </div>
-    <div id="unparsedDiv">
-        Unparsed parts:
-        <a id="unparsedPrev" href="#">&lt;&lt;</a>
-        <span id="unparsedCurr">1</span> / <span id="unparsedTotal">1</span>
-        <a id="unparsedNext" href="#">&gt;&gt;</a>
-    </div>
-    <div id="bytesDiv">
-        Byte arrays:
-        <a id="bytesPrev" href="#">&lt;&lt;</a>
-        <span id="bytesCurr">1</span> / <span id="bytesTotal">1</span>
-        <a id="bytesNext" href="#">&gt;&gt;</a>
-    </div>
-    <div id="parsedPathDiv">Selected: <span id="parsedPath"></span></div>
-    <div id="exportToJsonDiv">
-        <a id="exportToJson" href="#">export to JSON</a> (<a id="exportToJsonHex" href="#">hex</a>)
-    </div>
     <div>
         <a id="aboutWebIde" href="#">about webide</a>
     </div>
-</div>
-
-<div id="converterPanel">
-    <table>
-        <thead><tr><th class="typeCol">Type</th><th class="typeValue">Value (unsigned)</th><th>(signed)</th></tr></thead>
-        <tr class="i8      int"> <td>i8</td>      <td class="val unsigned"></td><td class="val signed"></td></tr>
-        <tr class="i16le   int"> <td>i16le</td>   <td class="val unsigned"></td><td class="val signed"></td></tr>
-        <tr class="i32le   int"> <td>i32le</td>   <td class="val unsigned"></td><td class="val signed"></td></tr>
-        <tr class="i64le   int"> <td>i64le</td>   <td class="val unsigned"></td><td class="val signed"></td></tr>
-        <tr class="i16be   int"> <td>i16be</td>   <td class="val unsigned"></td><td class="val signed"></td></tr>
-        <tr class="i32be   int"> <td>i32be</td>   <td class="val unsigned"></td><td class="val signed"></td></tr>
-        <tr class="i64be   int"> <td>i64be</td>   <td class="val unsigned"></td><td class="val signed"></td></tr>
-        <tr class="float">       <td>float</td>   <td class="val" colspan="2"></td></tr>
-        <tr class="double">      <td>double</td>  <td class="val" colspan="2"></td></tr>
-        <tr class="unixts">      <td>unixts</td>  <td class="val" colspan="2"></td></tr>
-        <tr class="ascii   str"> <td>ascii</td>   <td colspan="2"><div class="val"></div></td></tr>
-        <tr class="utf8    str"> <td>utf8</td>    <td colspan="2"><div class="val"></div></td></tr>
-        <tr class="utf16le str"> <td>utf16le</td> <td colspan="2"><div class="val"></div></td></tr>
-        <tr class="utf16be str"> <td>utf16be</td> <td colspan="2"><div class="val"></div></td></tr>
-    </table>
 </div>
 
 <div id="fileTreeCont">
@@ -122,70 +63,17 @@
 
     </div>
     <div class="footer btn-group" role="group">
-        <button id="createLocalKsyFile" type="button" class="btn btn-default"><i class="glyphicon glyphicon-file"></i></button>
-        <button id="uploadFile" type="button" class="btn btn-default"><i class="glyphicon glyphicon-cloud-upload"></i></button>
         <button id="downloadFile" type="button" class="btn btn-default disabled"><i class="glyphicon glyphicon-cloud-download"></i></button>
     </div>
 </div>
 
 <div id="fileTreeContextMenu" class="dropdown clearfix">
     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
-        <li class="openItem"><a tabindex="-1" href="#"><i class="glyphicon glyphicon-pencil"></i> Open</a></li>
-        <li class="createFolder"><a tabindex="-1" href="#"><i class="glyphicon glyphicon-folder-open"></i> Create folder</a></li>
-        <li class="createKsyFile"><a tabindex="-1" href="#"><i class="glyphicon glyphicon-list-alt"></i> Create .ksy file</a></li>
-        <li class="cloneKsyFile"><a tabindex="-1" href="#"><i class="glyphicon fa fa-clone"></i> Clone</a></li>
-        <li class="generateParser dropdown-submenu">
-            <a tabindex="-1" href="#"><i class="glyphicon glyphicon-flash"></i> Generate parser</a>
-            <ul class="dropdown-menu">
-                <li><a tabindex="-1" href="#" data-kslang="cpp_stl" data-acelang="c_cpp">CPP-STL</a></li>
-                <li><a tabindex="-1" href="#" data-kslang="csharp" data-acelang="csharp">C#</a></li>
-                <li><a tabindex="-1" href="#" data-kslang="graphviz" data-acelang="dot">Graphviz</a></li>
-                <li><a tabindex="-1" href="#" data-kslang="java" data-acelang="java">Java</a></li>
-                <li><a tabindex="-1" href="#" data-kslang="java" data-ksdebug="true" data-acelang="java">Java (debug)</a></li>
-                <li><a tabindex="-1" href="#" data-kslang="javascript" data-acelang="javascript">JavaScript</a></li>
-                <li><a tabindex="-1" href="#" data-kslang="javascript" data-ksdebug="true" data-acelang="javascript">JavaScript (debug)</a></li>
-                <li><a tabindex="-1" href="#" data-kslang="perl" data-acelang="perl">Perl</a></li>
-                <li><a tabindex="-1" href="#" data-kslang="php" data-acelang="php">PHP</a></li>
-                <li><a tabindex="-1" href="#" data-kslang="python" data-acelang="python">Python</a></li>
-                <li><a tabindex="-1" href="#" data-kslang="ruby" data-acelang="ruby">Ruby</a></li>
-                <li><a tabindex="-1" href="#" data-kslang="ruby" data-ksdebug="true" data-acelang="ruby">Ruby (debug)</a></li>
-                <li><a tabindex="-1" href="#" data-kslang="json" data-acelang="json">JSON</a></li>
-            </ul>
-        </li>
         <li class="downloadItem"><a tabindex="-1" href="#"><i class="glyphicon glyphicon-cloud-download"></i> Download</a></li>
         <li class="deleteItem"><a tabindex="-1" href="#"><i class="glyphicon glyphicon-remove"></i> Delete</a></li>
     </ul>
 </div>
 
-<div id="inputContextMenu" class="dropdown clearfix">
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
-        <li class="downloadItem"><a tabindex="-1" href="#"><i class="glyphicon glyphicon-cloud-download"></i> Download</a></li>
-    </ul>
-</div>
-
-<div class="modal fade" id="newKsyModal" tabindex="-1" role="dialog" aria-labelledby="newKsyModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="newKsyModalLabel">Create new .ksy format file</h4>
-            </div>
-            <form>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="newKsyName" class="control-label">Name:</label>
-                        <input type="text" class="form-control" id="newKsyName">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Create</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-    
 <div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="welcomeModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -202,8 +90,7 @@
                     upload them to <a href="https://ide.kaitai.io">ide.kaitai.io</a>.
                 </div>
                 <div class="form-group">
-                    You can use the WebIDE on this domain (kt.pe) until 04/15/2017, although the new features / bugfixes won't be available here (only on <a href="https://ide.kaitai.io">ide.kaitai.io</a>).
-                    After 04/15/2017 every functionality will be removed, except file download.
+                    After a two weeks notification period, every functionality was removed except file download on 04/19/2017.
                 </div>
                 <div class="form-group">
                     If you have any questions or suggestions you can always visit us at
@@ -233,27 +120,5 @@
     </div>
 </div>
 
-<div id="practicePanel">
-    <div class="description">challenge description</div>
-    <div id="practiceDiff"></div>
-    <div id="practiceStatus">
-        <span class="label label-warning inProgress">In progress</span>
-        <span class="label label-success inactive success">Success!</span>
-        <span class="label label-success acceptedByServer">Accepted by server! :)</span>
-        <span class="label label-danger declinedByServer">Declined by server :(</span>
-    </div>
-</div>
-
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js" type="text/javascript" charset="utf-8"></script> -->
-<script src="lib/ace/ace.js"></script>
-<script src="lib/kaitai/yaml.js"></script>
-<script src="lib/kaitai/kaitai-struct-compiler-fastopt.js"></script>
-<script src="js/HexViewer.js"></script>
-<script src="lib/jailed/jailed.js"></script>
-<script src="lib/interval-tree2/interval-tree.js"></script>
-<script src="js/FileDrop.js"></script>
-<script src="js/parsedToTree.js"></script>
-<script src="lib/BigInteger/BigInteger.js"></script>
-<script src="lib/date.format/date.format.js"></script>
 </body>
 </html>

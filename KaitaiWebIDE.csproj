@@ -33,24 +33,11 @@
     <TypeScriptCompile Include="lib\ts-types\jquery.d.ts" />
     <TypeScriptCompile Include="lib\ts-types\jstree.d.ts" />
     <TypeScriptCompile Include="lib\ts-types\localForage.d.ts" />
-    <TypeScriptCompile Include="src\app.converterPanel.ts" />
-    <TypeScriptCompile Include="src\app.errors.ts" />
     <TypeScriptCompile Include="src\app.files.ts" />
-    <TypeScriptCompile Include="src\app.jail.ts" />
     <TypeScriptCompile Include="src\app.layout.ts" />
-    <TypeScriptCompile Include="src\app.practiceMode.ts" />
-    <TypeScriptCompile Include="src\app.selectionInput.ts" />
     <TypeScriptCompile Include="src\app.ts" />
     <TypeScriptCompile Include="src\app.unsupportedBrowser.ts" />
-    <TypeScriptCompile Include="src\entities.ts" />
-    <TypeScriptCompile Include="src\FileDrop.ts" />
-    <TypeScriptCompile Include="src\kaitaiJail.ts" />
-    <TypeScriptCompile Include="src\KsySchema.ts" />
-    <TypeScriptCompile Include="src\parsedToJson.ts" />
-    <TypeScriptCompile Include="src\parsedToTree.ts" />
-    <TypeScriptCompile Include="src\practiceMode.ts" />
     <TypeScriptCompile Include="src\utils.ts" />
-    <TypeScriptCompile Include="src\HexViewer.ts" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
@@ -65,7 +52,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>12428</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

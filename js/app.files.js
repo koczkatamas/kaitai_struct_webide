@@ -121,15 +121,8 @@ $(() => {
     }).bind('loaded.jstree', refreshFsNodes).jstree(true);
     var uiFiles = {
         fileTreeContextMenu: $("#fileTreeContextMenu"),
-        openItem: $('#fileTreeContextMenu .openItem'),
-        createFolder: $('#fileTreeContextMenu .createFolder'),
-        createKsyFile: $('#fileTreeContextMenu .createKsyFile'),
-        cloneKsyFile: $('#fileTreeContextMenu .cloneKsyFile'),
-        generateParser: $('#fileTreeContextMenu .generateParser'),
         downloadItem: $('#fileTreeContextMenu .downloadItem'),
         deleteItem: $('#fileTreeContextMenu .deleteItem'),
-        createLocalKsyFile: $('#createLocalKsyFile'),
-        uploadFile: $('#uploadFile'),
         downloadFile: $('#downloadFile'),
     };
     function convertTreeNode(treeNode) {
@@ -157,11 +150,7 @@ $(() => {
         var isLocal = data && data.fsType === 'local';
         var isKsy = data && data.fn && data.fn.endsWith('.ksy') && !isFolder;
         function setEnabled(item, isEnabled) { item.toggleClass('disabled', !isEnabled); }
-        setEnabled(uiFiles.createFolder, isLocal && isFolder);
-        setEnabled(uiFiles.createKsyFile, isLocal && isFolder);
-        setEnabled(uiFiles.cloneKsyFile, isLocal && isKsy);
         setEnabled(uiFiles.deleteItem, isLocal);
-        setEnabled(uiFiles.generateParser, isKsy);
         uiFiles.fileTreeContextMenu.css({ display: "block", left: e.pageX, top: e.pageY });
         return false;
     });
@@ -173,42 +162,13 @@ $(() => {
             }
         });
     }
-    ctxAction(uiFiles.createFolder, e => {
-        var parentData = getSelectedData();
-        ui.fileTree.create_node(ui.fileTree.get_node(contextMenuTarget), { data: { fsType: parentData.fsType, type: 'folder' }, icon: 'glyphicon glyphicon-folder-open' }, "last", node => {
-            ui.fileTree.activate_node(node, null);
-            setTimeout(function () { ui.fileTree.edit(node); }, 0);
-        });
-    });
     ctxAction(uiFiles.deleteItem, e => ui.fileTree.delete_node(ui.fileTree.get_selected()));
-    ctxAction(uiFiles.openItem, e => $(contextMenuTarget).trigger('dblclick'));
-    ctxAction(uiFiles.generateParser, e => {
-        var fsItem = getSelectedData();
-        var linkData = $(e.target).data();
-        //console.log(fsItem, linkData);
-        fss[fsItem.fsType].get(fsItem.fn).then(content => {
-            return compile(content, linkData.kslang, !!linkData.ksdebug).then(compiled => {
-                compiled.forEach((compItem, i) => {
-                    var title = fsItem.fn.split('/').last() + ' [' + $(e.target).text() + ']' + (compiled.length == 1 ? '' : ` ${i + 1}/${compiled.length}`);
-                    addEditorTab(title, compItem, linkData.acelang);
-                });
-            });
-        });
-    });
     fileTreeCont.on('create_node.jstree rename_node.jstree delete_node.jstree move_node.jstree paste.jstree', saveTree);
     fileTreeCont.on('move_node.jstree', (e, data) => ui.fileTree.open_node(ui.fileTree.get_node(data.parent)));
     fileTreeCont.on('select_node.jstree', (e, selectNodeArgs) => {
         var fsItem = selectNodeArgs.node.data;
         [uiFiles.downloadFile, uiFiles.downloadItem].forEach(i => i.toggleClass('disabled', !(fsItem && fsItem.type === 'file')));
     });
-    var ksyParent;
-    function showKsyModal(parent) {
-        ksyParent = parent;
-        $('#newKsyName').val('');
-        $('#newKsyModal').modal();
-    }
-    ctxAction(uiFiles.createKsyFile, () => showKsyModal(contextMenuTarget));
-    uiFiles.createLocalKsyFile.on('click', () => showKsyModal('localStorage'));
     function downloadFiles() {
         ui.fileTree.get_selected().forEach(nodeId => {
             var fsItem = ui.fileTree.get_node(nodeId).data;
@@ -217,26 +177,6 @@ $(() => {
     }
     ctxAction(uiFiles.downloadItem, () => downloadFiles());
     uiFiles.downloadFile.on('click', () => downloadFiles());
-    uiFiles.uploadFile.on('click', () => openFilesWithDialog(addNewFiles));
-    $('#newKsyModal').on('shown.bs.modal', () => { $('#newKsyModal input').focus(); });
-    $('#newKsyModal form').submit(function (event) {
-        event.preventDefault();
-        $('#newKsyModal').modal('hide');
-        var ksyName = $('#newKsyName').val();
-        var parentData = ui.fileTree.get_node(ksyParent).data;
-        fss[parentData.fsType].put((parentData.fn ? `${parentData.fn}/` : '') + `${ksyName}.ksy`, `meta:\n  id: ${ksyName}\n  file-extension: ${ksyName}\n`).then(fsItem => {
-            addKsyFile(ksyParent, `${ksyName}.ksy`, fsItem);
-            return loadFsItem(fsItem);
-        });
-    });
-    fileTreeCont.bind("dblclick.jstree", function (event) {
-        loadFsItem(ui.fileTree.get_node(event.target).data);
-    });
-    ctxAction(uiFiles.cloneKsyFile, e => {
-        var fsItem = getSelectedData();
-        var newFn = fsItem.fn.replace('.ksy', '_' + new Date().format('Ymd_His') + '.ksy');
-        console.log('newFn', newFn);
-        fss[fsItem.fsType].get(fsItem.fn).then(content => fss[fsItem.fsType].put(newFn, content).then(fsItem => addKsyFile('localStorage', newFn.split('/').last(), fsItem)));
-    });
+    fileTreeCont.bind("dblclick.jstree", function (event) { downloadFiles(); });
 });
 //# sourceMappingURL=app.files.js.map

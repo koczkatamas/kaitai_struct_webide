@@ -154,16 +154,4 @@ function s(strings, ...values) {
         result += htmlescape(values[i - 1]) + strings[i];
     return result;
 }
-function collectAllObjects(root) {
-    var objects = [];
-    function process(value) {
-        objects.push(value);
-        if (value.type === ObjectType.Object)
-            Object.keys(value.object.fields).forEach(fieldName => process(value.object.fields[fieldName]));
-        else if (value.type === ObjectType.Array)
-            value.arrayItems.forEach(arrItem => process(arrItem));
-    }
-    process(root);
-    return objects;
-}
 //# sourceMappingURL=utils.js.map
